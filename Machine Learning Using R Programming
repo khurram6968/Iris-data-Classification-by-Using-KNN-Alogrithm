@@ -1,4 +1,7 @@
+#In
 iris_data=iris
+#Here we should take sample because similar value of species presented in data.
+#Sample take by number in dataset
 set.seed(123)
 iris_data_sample=(sample(1:nrow(iris_data),150,replace = F))
 iris_data=iris_data[iris_data_sample,]
