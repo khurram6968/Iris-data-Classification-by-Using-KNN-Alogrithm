@@ -1,0 +1,36 @@
+iris_data=iris
+set.seed(123)
+iris_data_sample=(sample(1:nrow(iris_data),150,replace = F))
+iris_data=iris_data[iris_data_sample,]
+View(iris_data)
+str(iris_data)
+round(prop.table(table(iris_data$Species))*100,digits = 1)
+summary(iris_data)
+normalize=function(x){
+  return((x-min(x))/(max(x)-min(x)))
+}
+normalize(c(1,2,3))
+iris_data_n=as.data.frame(lapply(iris_data[1:4], normalize))
+iris_data_train=iris_data_n[1:100,]
+iris_data_test=iris_data_n[101:150,]
+iris_data_train_labels=iris_data[1:100,5]
+iris_data_test_labels=iris_data[101:150,5]
+library(class)
+iris_data_test_pred=knn(train = iris_data_train,
+                        test = iris_data_test,cl=iris_data_train_labels,k=13)
+library(gmodels)
+CrossTable(x=iris_data_test_labels,y=iris_data_test_pred,prop.chisq = F)
+#there 97% correct prediction
+#Now we use the other transformation:z-score standardization
+iris_data_z=as.data.frame(scale(iris_data[,-5]))
+View(iris_data_z)
+summary(iris_data_z)
+#split data
+iris_data_z_train=iris_data_z[1:100,]
+iris_data_z_test=iris_data_z[101:150,]
+iris_data_z_train_labels=iris_data[1:100,5]
+iris_data_z_test_labels=iris_data[101:150,5]
+iris_data_z_test_pred=knn(train = iris_data_z_train,test = iris_data_z_test
+                          ,cl=iris_data_z_train_labels,k=13)
+CrossTable(x=iris_data_z_test_labels,y=iris_data_z_test_pred,prop.chisq = F)
+
