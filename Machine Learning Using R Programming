@@ -8,10 +8,14 @@ View(iris_data)
 str(iris_data)
 round(prop.table(table(iris_data$Species))*100,digits = 1)
 summary(iris_data)
+#We create a function for Normalize the numeric data
+#if u know why normalize the data then ok and if u don't know then comment. 
 normalize=function(x){
   return((x-min(x))/(max(x)-min(x)))
 }
+#For checking normalize function it working coorect or not.
 normalize(c(1,2,3))
+#Working correct.
 iris_data_n=as.data.frame(lapply(iris_data[1:4], normalize))
 iris_data_train=iris_data_n[1:100,]
 iris_data_test=iris_data_n[101:150,]
@@ -22,7 +26,7 @@ iris_data_test_pred=knn(train = iris_data_train,
                         test = iris_data_test,cl=iris_data_train_labels,k=13)
 library(gmodels)
 CrossTable(x=iris_data_test_labels,y=iris_data_test_pred,prop.chisq = F)
-#there 97% correct prediction
+########97% correct prediction.if we use min-max transformation.
 #Now we use the other transformation:z-score standardization
 iris_data_z=as.data.frame(scale(iris_data[,-5]))
 View(iris_data_z)
@@ -35,4 +39,4 @@ iris_data_z_test_labels=iris_data[101:150,5]
 iris_data_z_test_pred=knn(train = iris_data_z_train,test = iris_data_z_test
                           ,cl=iris_data_z_train_labels,k=13)
 CrossTable(x=iris_data_z_test_labels,y=iris_data_z_test_pred,prop.chisq = F)
-#95% Accurracy in the model.
+#########95% correct prediction.If use the z-score Standardization.
