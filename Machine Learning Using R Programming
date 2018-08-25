@@ -8,8 +8,7 @@ View(iris_data)
 str(iris_data)
 round(prop.table(table(iris_data$Species))*100,digits = 1)
 summary(iris_data)
-#We create a function for Normalize the numeric data
-#if u know why normalize the data then ok and if u don't know then comment. 
+#We create a function for Normalize the numeric data 
 normalize=function(x){
   return((x-min(x))/(max(x)-min(x)))
 }
